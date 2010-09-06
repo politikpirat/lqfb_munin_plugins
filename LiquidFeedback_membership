@@ -7,11 +7,12 @@ case $1 in
 	echo "graph_title membership"
 	echo "graph_vlabel Numder of member of area"
 
+	count=$(psql liquid_feedback_pp -At -c "SELECT COUNT (id) FROM area;")
+
         for (( i=1; i<=$count; i++ ))
         do
                 echo ${i}.label $(psql liquid_feedback_pp -At -c "Select name from area where id='$i';")
         done
-
 
         exit 0;;
 esac
@@ -20,6 +21,6 @@ count=$(psql liquid_feedback_pp -At -c "SELECT COUNT (id) FROM area;")
 
 for (( i=1; i<=$count; i++ ))
 do
-        echo -n "$i.value "; psql liquid_feedback_pp -At -c "select count (member_id) from membership where area_id='$i';""
+        echo -n "$i.value "; psql liquid_feedback_pp -At -c "select count (member_id) from membership where area_id='$i';"
 done
 
