@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case $1 in
+   config)
+
+	echo "graph_category LiquidFeedback"
+	echo "graph_title member count"
+	echo "graph_vlabel Member"
+
+	echo "member.label active member"
+	echo "inactive.label inactive member"
+
+        exit 0;;
+esac
+
+echo -n "member.value "; psql liquid_feedback_pp -At -c "Select total_count from member_count;"
+echo -n "inactive.value "; psql liquid_feedback_pp -At -c "Select count (id) from member where active=FALSE;"

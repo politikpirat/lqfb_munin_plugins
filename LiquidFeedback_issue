@@ -1,0 +1,23 @@
+#!/bin/sh
+
+case $1 in
+   config)
+
+	echo "graph_category LiquidFeedback"
+	echo "graph_title issues"
+	echo "graph_vlabel Number of issues"
+
+	echo "new.label new"
+	echo "discussion.label discussion"
+	echo "frozen.label frozen"
+	echo "vote.label vote"
+	echo "closed.label closed"
+
+        exit 0;;
+esac
+
+echo -n "new.value "; psql liquid_feedback_pp -At -c "SELECT COUNT (id) FROM issue WHERE accepted ISNULL;"
+echo -n "discussion.value "; psql liquid_feedback_pp -At -c "Select count (id) from issue where (accepted NOTNULL) AND (half_frozen ISNULL);"
+echo -n "frozen.value "; psql liquid_feedback_pp -At -c "Select count (id) from issue where (half_frozen NOTNULL) AND (fully_frozen ISNULL);"
+echo -n "vote.value "; psql liquid_feedback_pp -At -c "Select count (id) from issue where (fully_frozen NOTNULL) AND (closed ISNULL);"
+echo -n "closed.value "; psql liquid_feedback_pp -At -c "SELECT COUNT (id) FROM issue WHERE closed NOTNULL;"

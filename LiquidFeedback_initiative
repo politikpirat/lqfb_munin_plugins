@@ -1,0 +1,23 @@
+#!/bin/sh
+
+case $1 in
+   config)
+        cat <<'EOM'
+graph_category LiquidFeedback
+graph_title initiatives
+graph_vlabel number of initiatives
+
+total.label all initiatives
+admitted.label admitted
+revoked.label revoked
+agreed.label agreed
+
+EOM
+        exit 0;;
+esac
+
+echo -n "total.value "; psql liquid_feedback_pp -At -c "Select count (id) from initiative;"
+echo -n "admitted.value "; psql liquid_feedback_pp -At -c "Select count (id) from initiative where admitted=TRUE;"
+echo -n "revoked.value "; psql liquid_feedback_pp -At -c "Select count (id) from initiative where revoked NOTNULL;"
+echo -n "agreed.value "; psql liquid_feedback_pp -At -c "Select count (id) from initiative where agreed=TRUE;"
+
