@@ -1,0 +1,55 @@
+MUNIN PLUGINS FOR LIQUIDFEEDBACK DATABASES
+
+REQUIREMENTS
+
+	- Postgresql database server v8.3 or higher
+	- on client: munin-node (instructions follow implementation as debian-package)
+	- on master: munin
+	- a running LiquidFeedback-DB (as running instance or downloaded db-dump)
+
+INSTALLATION
+
+	1. DOWNLOAD and UNTAR sources
+		
+		sudo wget http://github.com/downloads/politikpirat/lqfb_munin_plugins/lqfb_munin_plugins_v0.1b.tar.gz
+		sudo tar xvf lqfb_munin_plugins_v0.1b.tar.gz
+
+	2. Install as Plugins for your Munin-Node
+
+		just copy the following prompts and execute where /opt/liquid_feedback/munin/ is the PATH to your downloaded sources
+
+		sudo ln -s /opt/liquid_feedback/munin/LiquidFeedback_member_count /etc/munin/plugins/LiquidFeedback_member_count
+		sudo ln -s /opt/liquid_feedback/munin/LiquidFeedback_membership /etc/munin/plugins/LiquidFeedback_membership
+		sudo ln -s /opt/liquid_feedback/munin/LiquidFeedback_issue /etc/munin/plugins/LiquidFeedback_issue
+		sudo ln -s /opt/liquid_feedback/munin/LiquidFeedback_issue_area /etc/munin/plugins/LiquidFeedback_issue_area
+		sudo ln -s /opt/liquid_feedback/munin/LiquidFeedback_initiative /etc/munin/plugins/LiquidFeedback_initiative
+
+		insert the following paragraph into you munin-node plugin configuration file (default: /etc/munin/plugin-conf.d/munin-node)
+
+		[LiquidFeedback_*]
+		        user www-data
+		
+		NOTE: the user 'www-data' would appear to be the owner of your liquidfeedback-db please change if necessary
+
+	3. RESTART munin-node
+
+		sudo /etc/init.d/munin-node restart
+
+LICENSE
+
+			 DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+	                	    Version 2, December 2004
+
+		  Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+
+		  Everyone is permitted to copy and distribute verbatim or modified
+		  copies of this license document, and changing it is allowed as long
+		  as the name is changed.
+
+		            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+		   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+		  0. You just DO WHAT THE FUCK YOU WANT TO.
+
+
+
