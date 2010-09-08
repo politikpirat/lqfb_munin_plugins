@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 case $1 in
    config)
 
 	echo "graph_category LiquidFeedback"
 	echo "graph_title delegation"
-	echo "graph_vlabel Number of member"
+	echo "graph_vlabel count"
 
 	echo "trustee.label trustee"
 	echo "truster.label truster"
@@ -23,8 +23,9 @@ echo "truster.value $trusters"
 
 delegation_count=$(psql liquid_feedback_pp -At -c "SELECT COUNT (DISTINCT id) FROM delegation;")
 
-#indelegtion=$delegation_count/$trustees
-#indelegtion=$delegation_count/$trusters
+indelegations=$(echo "scale=2; $delegation_count/$trustees" | bc)
+outdelegations=$(echo "scale=2; $delegation_count/$trusters" | bc)
 
-echo -n "indelegation.value "; expr $delegation_count / $trustees
-echo -n "outdelegation.value "; expr $delegation_count / $trusters
+echo "indelegation.value $indelegations"
+echo "outdelegation.value $outdelegations"
+
