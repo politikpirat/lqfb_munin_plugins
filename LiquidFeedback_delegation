@@ -1,0 +1,30 @@
+#!/bin/sh
+
+case $1 in
+   config)
+
+	echo "graph_category LiquidFeedback"
+	echo "graph_title delegation"
+	echo "graph_vlabel Number of member"
+
+	echo "trustee.label trustee"
+	echo "truster.label truster"
+	echo "indelegation.label avg incoming delegations"
+	echo "outdelegation.label avg outgoing delegtions"
+
+        exit 0;;
+esac
+
+trustees=$(psql liquid_feedback_pp -At -c "SELECT COUNT (DISTINCT trustee_id) FROM delegation;")
+trusters=$(psql liquid_feedback_pp -At -c "SELECT COUNT (DISTINCT truster_id) FROM delegation;")
+
+echo "trustee.value $trustees"
+echo "truster.value $trusters"
+
+delegation_count=$(psql liquid_feedback_pp -At -c "SELECT COUNT (DISTINCT id) FROM delegation;")
+
+#indelegtion=$delegation_count/$trustees
+#indelegtion=$delegation_count/$trusters
+
+echo -n "indelegation.value "; expr $delegation_count / $trustees
+echo -n "outdelegation.value "; expr $delegation_count / $trusters
