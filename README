@@ -6,6 +6,7 @@ REQUIREMENTS
 	- on client: munin-node (instructions follow implementation as debian-package)
 	- on master: munin
 	- a running LiquidFeedback-DB (as running instance or downloaded db-dump)
+	- bashcalculation for linux-shell (debian package 'bc')
 
 INSTALLATION
 
